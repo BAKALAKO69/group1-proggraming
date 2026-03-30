@@ -85,6 +85,14 @@ public class Maybe {
 
         };
 
+// Jhon Michael Pasag: Contributed to adding terms about parts of motherboard.
+            "CPU Socket:(noun) the slot on the motherboard where the processor is installed.",
+            "Chipset:(noun) a set of electronic components that manages data flow between the processor, memory, and peripherals.",
+            "Expansion Slots:(noun) slots like PCIe used to add extra components such as graphics cards or network cards.",
+            "SATA Ports:(noun) connectors used to attach storage devices like hard drives and SSDs.",
+            "CMOS Battery:(noun) a small battery that keeps the BIOS settings and real-time clock running when the computer is off.",
+        };
+
         System.out.print("Enter Term: ");                        //Jonathan
         String choice = scanner.nextLine();                      //The user can enter
         
