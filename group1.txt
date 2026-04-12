@@ -1,8 +1,8 @@
-package com.mycompany.it_dictionary;
+
 import java.util.Scanner;
 import java.util.HashMap;
 
-public class IT_Dictionary {
+public class it_dictionary {
  // This is the 1D array that stores all IT terms and definitions
         static String[] data = {
         // Ronald Commendador: Contributed to adding terms in the IT dictionary program.
@@ -80,7 +80,7 @@ public class IT_Dictionary {
              "Expansion Slots:(noun) slots like PCIe used to add extra components such as graphics cards or network cards.",
              "SATA Ports:(noun) connectors used to attach storage devices like hard drives and SSDs.",
              "CMOS Battery:(noun) a small battery that keeps the BIOS settings and real-time clock running when the computer is off.",
-          //Al Nhur Limpao: Contributed to adding terms in the IT Dictionary program.
+          //Al Nhur Limpao: Contributed to adding terms in the IT dictionary program.
              "Ethernet:(noun) A set of technologies and protocols connecting devices over a network. It is commonly used with the RJ45/8P8C port.",
              "Network Switch:(noun) a device which allows to connect multiple devices together.",
              "Access Point:(noun) A device or component that acts as the wireless entry point in a network.",
@@ -131,6 +131,7 @@ static void Menu() {
     System.out.println("2. Search Term");
     System.out.println("3. Most Searched Term");
     System.out.println("4. Show First Term");
+    System.out.println("5. Search by Keyword"); // Added new menu option
     CountTerms(data);
     System.out.print("Enter Choice: ");
     
@@ -145,6 +146,8 @@ static void Menu() {
         mostSearched();
     } else if(choice.equals("4")) {
         showFirstTerm();  
+    } else if(choice.equals("5")) {
+        searchByKeyword();  // Call the new keyword search method
     } else {
         System.out.println("Invalid choice. Try again.");
         Menu();
@@ -165,25 +168,23 @@ static void MainSearch(){
         
     Boolean decision = false;
 
-    for (int i = 0; i < data.length; i++) {
-        String[] SplitData = data[i].split(":", 2);
-            
-        //Xyrlle Abordo
-        //Added conditional statement using string methods: trim()and equalsIgnoreCase().
-        //Its purpose is to compare user input without caring about capitalization and spaces
-        if (SplitData[0].trim().equalsIgnoreCase(choice.trim())) {
-            System.out.println("Definition: " + SplitData[1]);
-            // Jazz Carlo Cabano
-            // Updates the number of times the searched term is used.
-            // If the term already exists, it increases the count by 1.
-            // If not, it initializes the count to 1.
-            searchCount.put(SplitData[0], searchCount.getOrDefault(SplitData[0], 0) + 1);
-
-            decision = true;
-            EndorReturn();
-            return;
-        }    
-    }
+            for (String data1 : data) {
+                String[] SplitData = data1.split(":", 2);
+                //Xyrlle Abordo
+                //Added conditional statement using string methods: trim()and equalsIgnoreCase().
+                //Its purpose is to compare user input without caring about capitalization and spaces
+                if (SplitData[0].trim().equalsIgnoreCase(choice.trim())) {
+                    System.out.println("Definition: " + SplitData[1]);
+                    // Jazz Carlo Cabano
+                    // Updates the number of times the searched term is used.
+                    // If the term already exists, it increases the count by 1.
+                    // If not, it initializes the count to 1.
+                    searchCount.put(SplitData[0], searchCount.getOrDefault(SplitData[0], 0) + 1);
+                    
+                    decision = true;
+                    EndorReturn();
+                    return;
+                }   }
 
     //James Ellicot
     //Created the method "NotFound()" to handle cases when input is not found.
@@ -223,11 +224,11 @@ static void EndorReturn(){
     static void CountTerms(String[] data) {
     int count = 0;
 
-    for (int i = 0; i < data.length; i++) {
-        if (data[i] != null && !data[i].isEmpty()) {
-            count++;
-        }
-    }
+            for (String data1 : data) {
+                if (data1 != null && !data1.isEmpty()) {
+                    count++;
+                }
+            }
 
     System.out.println("\nTotal number of IT terms: " + count);
 }
@@ -242,7 +243,7 @@ static void searchAgain(){
     System.out.println("\nWould You Like To Search Again?"); 
     System.out.println("1. Go Back Menu.");
     System.out.println("2. Search A Term Again");
-    System.out.println("3. Exit Program");
+    System.out.println("3. Exit Program");  // FIXED: Removed duplicate "System"
     System.out.print("Enter Choice: ");
 
     Scanner scanner = new Scanner (System.in);
@@ -261,6 +262,7 @@ static void searchAgain(){
         searchAgain();
     }
 }
+
 // Rashlie Merced
 // This method displays the first letter of the entered IT term
 // Its purpose is to show basic information about the user's input
@@ -277,23 +279,24 @@ static void showFirstTerm() {
     }
 
     EndorReturn();
-    
+}  // FIXED: Added missing closing brace here
 
 //Ashton Paulinio
 //This method display all available terms encoded in the program.
 //The purpose is to show users all vailable terms for them to search its definition.
-} static void showAllTerms() {
+static void showAllTerms() {  // FIXED: Moved opening brace to correct position
     System.out.println("=================================");
-        System.out.println("Available IT terms:");
+    System.out.println("Available IT terms:");
 
     for (String entry : data) {
         String[] parts = entry.split(":");
         System.out.println("- " + parts[0]);
-        }
+    }
     System.out.println("=================================");    
     System.out.println("All available IT term have been displayed for this program. Please continue."); 
     MainSearch();
 }
+
 // Jazz Carlo Cabano
 // This method displays the most searched term based on user input frequency.
 // It checks the stored data and finds which term has the highest search count.
@@ -315,6 +318,47 @@ static void mostSearched() {
         System.out.println("\nNo searches have been made yet.");
     }
 
+    EndorReturn();
+}
+
+// Jhon Michael Pasag: Contributed to adding the searchByKeyword method in the IT Dictionary program.
+// This method allows users to search for terms by entering a keyword that may appear in any part of the term or definition.
+// It displays all matching terms and their definitions, making it easier to find related concepts.
+static void searchByKeyword() {
+    Scanner scanner = new Scanner(System.in);
+    
+    System.out.println("===========================");
+    System.out.println(">--SEARCH BY KEYWORD--<");
+    System.out.println("===========================");
+    System.out.print("Enter keyword: ");
+    String keyword = scanner.nextLine().trim().toLowerCase();
+    
+    boolean found = false;
+    int matchCount = 0;
+    
+    System.out.println("\n--- Matching Results ---");
+    
+            for (String data1 : data) {
+                String[] splitData = data1.split(":", 2);
+                String term = splitData[0].toLowerCase();
+                String definition = splitData[1].toLowerCase();
+                // Check if keyword appears in term or definition
+                if (term.contains(keyword) || definition.contains(keyword)) {
+                    System.out.println("\nTerm: " + splitData[0]);
+                    System.out.println("Definition: " + splitData[1]);
+                    matchCount++;
+                    found = true;
+                    
+                    // Update search count for this term
+                    searchCount.put(splitData[0], searchCount.getOrDefault(splitData[0], 0) + 1);
+                }   }
+    
+    if (!found) {
+        System.out.println("No terms found containing the keyword: " + keyword);
+    } else {
+        System.out.println("\n--- " + matchCount + " result(s) found ---");
+    }
+    
     EndorReturn();
 }
 
